@@ -36,7 +36,7 @@ do
         case "3":
             // Eine Runde MasterMind spielen
             Console.WriteLine("Lass uns eine Runde Mastermind spielen! Wenn du in 16 Versuchen den Code nicht erraten hast, hast du verloren!");
-            Console.WriteLine($"Gesucht wird ein Code mit {geheimCodeStellen} Stellen.");
+            Console.WriteLine($"Gesucht wird ein Code mit {geheimCodeStellen} Stellen. Mögliche Zahlen von 1-6.");
             for (int i = 0; i < geheimCodeStellen; i++)
                 code += geheimCode.Next(1, 7);
 
@@ -46,7 +46,7 @@ do
                 char[] benutzerEingabe = Console.ReadLine().ToCharArray();
                 if (benutzerEingabe.Length != code.Length)
                 {
-                    Console.WriteLine($"Gib bitte {geheimCodeStellen} Zahlen ein! Mögliche Zahlen von 1-6");
+                    Console.WriteLine($"Gib bitte {geheimCodeStellen} Zahlen ein!");
                     continue;
                 }
                 if (benutzerEingabe.SequenceEqual(code))
@@ -76,13 +76,18 @@ do
                 {
                     if (codeL[i] == benutzerEingabe[i])
                     {
+                        Console.ForegroundColor = ConsoleColor.Green; Console.Write(code[i] + "xxxx");
+                        Console.ResetColor();
                         stellenKorrekt++;
                         benutzerEingabe[i] = '+';
-                        codeL[i] = '-';
                         continue;
+                        //stellenKorrekt++;
+                        //benutzerEingabe[i] = '+';
+                        //codeL[i] = '-';
+                        //continue;
                     }
 
-                    // Ziffern richtig aber am falschen Ort
+                    // Ziffer richtig aber am falsche Stelle
                     if (codeL.Contains(benutzerEingabe[i]) && codeL[Array.IndexOf(codeL, benutzerEingabe[i])] != benutzerEingabe[Array.IndexOf(codeL, benutzerEingabe[i])])
                     {
                         ziffernKorrekt++;
