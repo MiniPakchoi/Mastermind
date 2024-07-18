@@ -1,5 +1,7 @@
 ﻿using Mastermind;
 using System.Collections.Concurrent;
+using System.Diagnostics;
+
 int geheimCodeStellen = 4;
 int rateVersuche = 0;
 string code = "";
@@ -20,7 +22,7 @@ do
 {
     Console.WriteLine("Willkommen bei MasterMind!");
     Console.WriteLine("Was willst du tun?");
-    Console.WriteLine("\n1. Spielablauf durchlesen\n2. Wissenswertes\n3. Eine Runde MasterMind spielen\n4. Ragequit!\n5. Speichern und Verlassen");
+    Console.WriteLine("\n1. Spielablauf durchlesen\n2. Wissenswertes\n3. Eine Runde MasterMind spielen\n4. Ragequit!");
     var input = Console.ReadLine();
 
     switch (input)
@@ -30,13 +32,14 @@ do
             SuperHirn.Spielablauf();
             break;
         case "2":
-            // Wissenswertes
+            // Wissenswertes über MasterMind
             SuperHirn.Wissenswertes();
             break;
         case "3":
             // Eine Runde MasterMind spielen
             Console.WriteLine("Lass uns eine Runde Mastermind spielen! Wenn du in 16 Versuchen den Code nicht erraten hast, hast du verloren!");
             Console.WriteLine($"Gesucht wird ein Code mit {geheimCodeStellen} Stellen. Mögliche Zahlen von 1-6.");
+            
             for (int i = 0; i < geheimCodeStellen; i++)
                 code += geheimCode.Next(1, 7);
 
@@ -48,6 +51,11 @@ do
                 {
                     Console.WriteLine($"Gib bitte {geheimCodeStellen} Zahlen ein!");
                     continue;
+                }
+                if (rateVersuche >= 16)
+                {
+                    Console.WriteLine("Du hast mehr als 16 Versuche gebraucht!\nGAME OVER!");
+                    break;
                 }
                 if (benutzerEingabe.SequenceEqual(code))
                 {
@@ -76,40 +84,39 @@ do
                 {
                     if (codeL[i] == benutzerEingabe[i])
                     {
-                        Console.ForegroundColor = ConsoleColor.Green; Console.Write(code[i] + "xxxx");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write(code[i]);
                         Console.ResetColor();
                         stellenKorrekt++;
-                        benutzerEingabe[i] = '+';
                         continue;
-                        //stellenKorrekt++;
-                        //benutzerEingabe[i] = '+';
-                        //codeL[i] = '-';
-                        //continue;
                     }
 
                     // Ziffer richtig aber am falsche Stelle
-                    if (codeL.Contains(benutzerEingabe[i]) && codeL[Array.IndexOf(codeL, benutzerEingabe[i])] != benutzerEingabe[Array.IndexOf(codeL, benutzerEingabe[i])])
+                    else if (codeL.Contains(benutzerEingabe[i]) && codeL[Array.IndexOf(codeL, benutzerEingabe[i])] != benutzerEingabe[Array.IndexOf(codeL, benutzerEingabe[i])])
                     {
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.Write(benutzerEingabe[i]);
+                        Console.ResetColor();
                         ziffernKorrekt++;
-                        codeL[Array.IndexOf(codeL, benutzerEingabe[i])] = '#';
+                    }
+                    //Wenn keine Ziffer/Stelle richtig ist, dann wird ein _ gedruckt
+                    else
+                    {
+                        Console.Write("_");
                     }
                 }
-                Console.WriteLine($"Stelle/n richtig: {stellenKorrekt}");
+                Console.WriteLine($"\nStelle/n richtig: {stellenKorrekt}");
                 Console.WriteLine($"Ziffer/n richtig: {ziffernKorrekt}");
                 stellenKorrekt = 0;
                 ziffernKorrekt = 0;
                 rateVersuche++;
-                Console.WriteLine($"{code}");
+                
             }
-
-            break;
-        case "4":
-            // Ragequit!
             
             break;
-        case "5":
-            // Spiel speichern & verlassen
-
+        case "4":
+            // Ragequit! oder für "normale Menschen" Anwendung schließen
+            Environment.Exit(0);
             break;
         default:
             // Bei falsche Eingabe, Hinweis geben.
