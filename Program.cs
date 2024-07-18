@@ -66,6 +66,8 @@ do
                     if(nochmal == "n")
                     {
                         Console.WriteLine("\n Tschöö mit ö, du landest gleich wieder im Menü!");
+                        Thread.Sleep(3000);
+                        Console.Clear();
                         break;
 
                     }
