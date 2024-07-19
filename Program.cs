@@ -5,10 +5,12 @@ using System.Diagnostics;
 int geheimCodeStellen = 4;
 int rateVersuche = 0;
 string code = "";
-Random geheimCode = new Random(); //Wird benötigt um den "Geheimcode zu generieren"
+Random geheimCode = new Random(); //Wird benötigt um den "Geheimcode" zu generieren
 int stellenKorrekt = 0;
 int ziffernKorrekt = 0;
 string nochmal = "";
+
+
 //static bool SequenceEquals(List<string> list, List<string> list2) 
 //{
 //    for(int i = 0; i < list.Count; i++) 
@@ -20,11 +22,13 @@ string nochmal = "";
 
 do
 {
-    Console.WriteLine("Willkommen bei MasterMind!");
+    SuperHirn.Ascii();
+    Console.WriteLine("");
     Console.WriteLine("Was willst du tun?");
-    Console.WriteLine("\n1. Spielablauf durchlesen\n2. Wissenswertes\n3. Eine Runde MasterMind spielen\n4. Ragequit!");
+    Console.WriteLine("\n1. Spielablauf durchlesen\n2. Wissenswertes\n3. Eine Runde MasterMind spielen\n4. Ragequit!\n");
+    Console.WriteLine("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n");
     var input = Console.ReadLine();
-
+    Console.WriteLine($"Du hast die Option {input} gewählt.");
     switch (input)
     {
         case "1":
@@ -37,12 +41,11 @@ do
             break;
         case "3":
             // Eine Runde MasterMind spielen
-            Console.WriteLine("Lass uns eine Runde Mastermind spielen! Wenn du in 16 Versuchen den Code nicht erraten hast, hast du verloren!");
+            Console.WriteLine("\nLass uns eine Runde Mastermind spielen! Wenn du in 16 Versuchen den Code nicht erraten hast, hast du verloren!");
             Console.WriteLine($"Gesucht wird ein Code mit {geheimCodeStellen} Stellen. Mögliche Zahlen von 1-6.");
             
             for (int i = 0; i < geheimCodeStellen; i++)
                 code += geheimCode.Next(1, 7);
-
             while (true)
             {
                 Console.WriteLine("-_-_-_-_-_-_-_-_-_-_-_-_-");
@@ -54,14 +57,19 @@ do
                 }
                 if (rateVersuche >= 16)
                 {
-                    Console.WriteLine("Du hast mehr als 16 Versuche gebraucht!\nGAME OVER!");
+                    Console.WriteLine($"Du hast mehr als 16 Versuche gebraucht!");
+                    SuperHirn.GameOver();
+                    Console.WriteLine($"Das war der Code: {code}");
+                    Thread.Sleep(5000);
+                    Console.WriteLine("In 5 Sekunden wird das Menü wieder angezeigt.");
+                    Console.Clear();
                     break;
                 }
                 if (benutzerEingabe.SequenceEqual(code))
                 {
                     rateVersuche++;
-                    Console.WriteLine($"Du hast den Geheimcode geknackt, der Code lautete: {code}. Du hast {rateVersuche} Versuch/e gebraucht");
-                    Console.WriteLine("Willst du noch eine Runde spielen? (j/n)", ++rateVersuche);
+                    Console.WriteLine($"Du hast den Geheimcode geknackt, der Code lautete: {code}. Du hast {rateVersuche - 1} Versuch/e gebraucht");
+                    Console.WriteLine("Willst du noch eine Runde spielen? (j/n)");
                     nochmal = Console.ReadLine();
                     if(nochmal == "n")
                     {
@@ -71,7 +79,6 @@ do
                         break;
 
                     }
-
                     Console.WriteLine($"\nGesucht wird ein Code mit {geheimCodeStellen} Stellen.");
                     code = "";
                     for (int i = 0; i < geheimCodeStellen; i++)
@@ -109,27 +116,25 @@ do
                 }
                 Console.WriteLine($"\nStelle/n richtig: {stellenKorrekt}");
                 Console.WriteLine($"Ziffer/n richtig: {ziffernKorrekt}");
+                
                 stellenKorrekt = 0;
                 ziffernKorrekt = 0;
                 rateVersuche++;
-                
+                Console.WriteLine($"Das war dein {rateVersuche} Versuch.");
             }
-            
             break;
         case "4":
             // Ragequit! oder für "normale Menschen" Anwendung schließen
             Environment.Exit(0);
             break;
         default:
-            // Bei falsche Eingabe, Hinweis geben.
+            // Bei falscher Eingabe, Hinweis geben.
             if (input != "1" || input != "2" || input != "3" || input != "4")
             {
                 Console.WriteLine("\nBitte gebe eine Zahl von 1 bis 4 ein!\n");
                 break;
             }
             break;
-            
-
     }
 } while (true);
 
