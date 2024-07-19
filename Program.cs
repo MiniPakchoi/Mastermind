@@ -9,8 +9,6 @@ Random geheimCode = new Random(); //Wird benötigt um den "Geheimcode" zu generi
 int stellenKorrekt = 0;
 int ziffernKorrekt = 0;
 string nochmal = "";
-
-
 //static bool SequenceEquals(List<string> list, List<string> list2) 
 //{
 //    for(int i = 0; i < list.Count; i++) 
@@ -43,7 +41,6 @@ do
             // Eine Runde MasterMind spielen
             Console.WriteLine("\nLass uns eine Runde Mastermind spielen! Wenn du in 16 Versuchen den Code nicht erraten hast, hast du verloren!");
             Console.WriteLine($"Gesucht wird ein Code mit {geheimCodeStellen} Stellen. Mögliche Zahlen von 1-6.");
-            
             for (int i = 0; i < geheimCodeStellen; i++)
                 code += geheimCode.Next(1, 7);
             while (true)
@@ -83,7 +80,6 @@ do
                     code = "";
                     for (int i = 0; i < geheimCodeStellen; i++)
                         code += geheimCode.Next(0, 6);
-
                     rateVersuche = 0;
                     continue;
                 }
